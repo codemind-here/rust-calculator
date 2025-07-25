@@ -98,6 +98,8 @@ The following Python-like utility functions are included.
 
 ```
 $ cargo run
+>>>help
+[will give the structure of the operations and functions]
 >>> 1 + 1
  2
 >>> factorial(n) = factorial(n - 1) * n if n > 0 else 1
