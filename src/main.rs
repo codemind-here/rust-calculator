@@ -14,10 +14,12 @@ mod eval;
 mod funcs;
 mod lexer;
 mod parser;
+mod help;
 
 use eval::{evaluate, Context, EvalError, Value};
 use lexer::tokenize;
 use parser::{parse, ParseError, Span};
+use help::{get_help_categories, get_function_details};
 
 fn clean_input(line: &str) -> String {
     line.chars()
@@ -68,6 +70,12 @@ fn format_value(val: &Value) -> String {
 }
 
 fn execute_line(line: &str, ctx: &mut Context) {
+    //check if user asked for usafe of an operator/function
+    if let Some(help_text) = get_function_details(line){
+        println!("Usage:{}",help_text);
+        return;
+    }
+
     let lexer = tokenize(line.trim());
 
     let root = match parse(lexer) {
@@ -96,6 +104,7 @@ fn main() {
 
     let base = funcs::create();
     let mut ctx = eval::Context::with_parent(&base);
+    println!("For help run command: {}", "help");
 
     loop {
         output.write_all(b">>> ").unwrap();
@@ -110,6 +119,22 @@ fn main() {
         }
 
         if line.is_empty() {
+            continue;
+        }
+
+        if line == "help"{
+            println!("\nAvailable operations:\n");
+
+            let help = get_help_categories();
+            for (category, items) in help.iter(){
+                println!("{}:", category);
+                for op in items{
+                    println!(" - {}", op);
+                }
+                println!();
+            }
+
+            println!("Type any operator or function name to see its usage (e.g. `pow`, `+`, `log`, etc.)\n");
             continue;
         }
 
