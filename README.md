@@ -99,7 +99,13 @@ The following Python-like utility functions are included.
 ```
 $ cargo run
 >>>help
-[will give the structure of the operations and functions]
+[will give the structure of the operations and functions with last line:Type any operator or function name to see its usage (e.g. `pow`, `+`, `log`, etc.)]
+>>> log
+Usage:log(base: number, value: number) -> number
+>>> +
+Usage:+: number + number -> number
+>>> pi
+Usage:Constant: π = 3.141592...
 >>> 1 + 1
  2
 >>> factorial(n) = factorial(n - 1) * n if n > 0 else 1
